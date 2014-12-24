@@ -3,10 +3,11 @@ window.onload = function() {
 	[].forEach.call(cols, function(col) { 
 		col.addEventListener("click", onClick, false);
 		col.setAttribute("draggable", true);
-	 	console.log("window load");	
+		console.log("window load");	
 		col.ondragstart = 
-	       		function()
-       			{console.log("Draggable"); };
+		function()
+	{console.log("Draggable"); };
+
 	var dragged;	
 	col.addEventListener("drag",function(event){
 		console.log("Drag");
@@ -26,59 +27,21 @@ window.onload = function() {
 		});
 	col.addEventListener("dragend", function(event)
 			{
-
-			console.log("dragend");
-
-				
-	
-
-
-
-
-
-
-
-		console.log(event.target);
-
-
-
-
-
-		col.innerHtml+="<p>punk</p>";
-
-
-
-
-	});
+				console.log("dragend");
+				console.log(event.target);
+				col.innerHtml+="<p>punk</p>";
+			});
 
 
 	var bin = document.querySelector('#right_col');	
 	addEvent(bin, 'drop', function (e) {
-		if (e.stopPropagation) e.stopPropagation(); // stops the browser from redirecting...why???
+		if (e.stopPropagation) e.stopPropagation();
 		console.log("DragEvent");
 		var el = document.getElementById(e.dataTransfer.getData('Text'));
 		el.parentNode.removeChild(el);
 	});
 
-
-	
-
-
-
-
-
-
-
-				
-
-
-
-
 	//Chrome doesn't receive drop event
-
-
-
-
 	col.addEvent("drop", function(event){
 		console.log("drop finished");
 		if(e.stopPropagation) e.stopPropagation();
@@ -99,25 +62,25 @@ function onClick(e) {
 }
 
 var addEvent = (function () {
-	  if (document.addEventListener) {
-		      return function (el, type, fn) {
-			            if (el && el.nodeName || el === window) {
-					            el.addEventListener(type, fn, false);
-						          } else if (el && el.length) {
-								          for (var i = 0; i < el.length; i++) {
-										            addEvent(el[i], type, fn);
-											            }
-									        }
-				        };
-		        } else {
-				    return function (el, type, fn) {
-					          if (el && el.nodeName || el === window) {
-							          el.attachEvent('on' + type, function () { return fn.call(el, window.event); });
-								        } else if (el && el.length) {
-										        for (var i = 0; i < el.length; i++) {
-												          addEvent(el[i], type, fn);
-													          }
-											      }
-						      };
-				      }
+	if (document.addEventListener) {
+		return function (el, type, fn) {
+			if (el && el.nodeName || el === window) {
+				el.addEventListener(type, fn, false);
+			} else if (el && el.length) {
+				for (var i = 0; i < el.length; i++) {
+					addEvent(el[i], type, fn);
+				}
+			}
+		};
+	} else {
+		return function (el, type, fn) {
+			if (el && el.nodeName || el === window) {
+				el.attachEvent('on' + type, function () { return fn.call(el, window.event); });
+			} else if (el && el.length) {
+				for (var i = 0; i < el.length; i++) {
+					addEvent(el[i], type, fn);
+				}
+			}
+		};
+	}
 })();
