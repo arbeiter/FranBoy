@@ -1,2 +1,4 @@
 run node server.js
-open localhost:8080
+open new tab in chrome
+go to localhost:8080
+
