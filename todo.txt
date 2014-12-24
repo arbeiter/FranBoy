@@ -1,0 +1,4 @@
+Add a control to the left of the page, and an area to the right
+Implement drag and drop for this control
+Implement drag and drip for abstract controls
+Test Drag and drop for <img>, <video>, <txt>

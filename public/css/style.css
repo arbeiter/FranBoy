@@ -1,0 +1,16 @@
+  body {background-color:lightgray}
+  h1   {color:blue}
+  p    {color:blue}
+#wrap {
+ width:600px;  
+}	
+ #right_col {
+ 	width:300px;
+
+	float:right;
+ }
+ #left_col {
+	 width:300px;
+	 float:left;
+ } 
+
