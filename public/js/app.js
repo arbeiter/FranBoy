@@ -1,86 +1,63 @@
 window.onload = function() {	
-	var cols = document.querySelectorAll("button.column");
-	[].forEach.call(cols, function(col) { 
-		col.addEventListener("click", onClick, false);
-		col.setAttribute("draggable", true);
-		console.log("window load");	
-		col.ondragstart = 
-		function()
-	{console.log("Draggable"); };
+	addDropBehavior();
+	addDragBehavior();
+};
 
-	var dragged;	
-	col.addEventListener("drag",function(event){
-		console.log("Drag");
-	},false);
+var addDragBehavior = function(){
+	var cols = document.querySelectorAll("#left_col");	
+	[].forEach.call(cols, function(col) { 	
+		console.log(col);
+		
+		var dragged;	
+		col.addEventListener("drag",function(event){
+			console.log("Drag");
+		},false);
 
-	col.addEventListener("dragstart", function (event)
-		{
-			//vent.originalEvent.dataTransfer.setData('text/plain', 'anything');
-			console.log("dragstart");
-			dragged = event.target;
-		});
-
-	col.addEventListener("dragover", function(event)
-		{
-			event.preventDefault();
-			console.log("dragover");
-		});
-	col.addEventListener("dragend", function(event)
+		col.addEventListener("dragstart", function (event)
 			{
-				console.log("dragend");
-				console.log(event.target);
-				col.innerHtml+="<p>punk</p>";
-			});
+				this.style.opacity='0.4';				
+				console.log("dragstart event invoked");
+			},false);
 
+		col.addEventListener("dragenter", function (event)
+			{		
+				console.log("dragenter");	
+			},false);
 
-	var bin = document.querySelector('#right_col');	
-	addEvent(bin, 'drop', function (e) {
-		if (e.stopPropagation) e.stopPropagation();
-		console.log("DragEvent");
-		var el = document.getElementById(e.dataTransfer.getData('Text'));
-		el.parentNode.removeChild(el);
-	});
-
-	//Chrome doesn't receive drop event
-	col.addEvent("drop", function(event){
-		console.log("drop finished");
-		if(e.stopPropagation) e.stopPropagation();
-		if(event.target.className==="Second")
-	{
-		dragged.parentNode.removeChild( dragged );
-		event.target.innerHtml = ( dragged );		 
-		console.log(event.target);
-		var tempNode = dragged.cloneNode(true);
-		event.target.appendChild(tempNode);
-	}
-	},false);
-
+		col.addEventListener("dragover", function(event)
+				{	
+					if(event.preventDefault)
+						event.preventDefault();
+					return false;
+				},false);	
 	});
 };
-function onClick(e) {
-	console.log("This happens");
-}
 
-var addEvent = (function () {
-	if (document.addEventListener) {
-		return function (el, type, fn) {
-			if (el && el.nodeName || el === window) {
-				el.addEventListener(type, fn, false);
-			} else if (el && el.length) {
-				for (var i = 0; i < el.length; i++) {
-					addEvent(el[i], type, fn);
-				}
-			}
-		};
-	} else {
-		return function (el, type, fn) {
-			if (el && el.nodeName || el === window) {
-				el.attachEvent('on' + type, function () { return fn.call(el, window.event); });
-			} else if (el && el.length) {
-				for (var i = 0; i < el.length; i++) {
-					addEvent(el[i], type, fn);
-				}
-			}
-		};
+var addDropBehavior = function(){	
+	var cols = document.querySelectorAll("#right_col");
+	[].forEach.call(cols, function(col) { 
+		console.log(col);	
+		col.addEventListener("dragenter", cancelDefault, false);
+		col.addEventListener("dragover", cancelDefault, false);
+		col.addEventListener("drop", handleDrop, false);
+		col.addEventListener("dragend", handleDragEnd, false);
+	});
+
+	function cancelDefault(event) {	
+			if(event.preventDefault())
+				event.preventDefault();
 	}
-})();
+
+	function handleDragEnd(e){
+		console.log("Handle Drag End");
+	}
+
+	function handleDrop(e) { 
+		console.log("handleDrop");
+		if (e.stopPropagation)
+		{
+			e.stopPropagation(); // Stops some browsers from redirecting.
+		}
+		return false;
+	}
+};
