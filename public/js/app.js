@@ -87,7 +87,10 @@ var addDropBehavior = function(){
 
 			
 			//Append dragged Node to parent			
-			curColumn.appendChild(dropObjects.pop());	
+			var objectToBeAppended = dropObjects.pop();
+			objectToBeAppended.style.opacity = 1;
+			curColumn.appendChild(objectToBeAppended);	
+			
 			dropObjects = [];			
 		}
 		return false;
